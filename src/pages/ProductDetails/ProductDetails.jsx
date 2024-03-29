@@ -29,6 +29,8 @@ function ProductDetails() {
     const response = fetchProductDetailCall(id);
     response.then((productDetail) => {
       setProduct(productDetail.data.product);
+    }).catch(()=>{
+      return alert('some error occurred plz try again..')
     });
   }
 
@@ -50,6 +52,8 @@ function ProductDetails() {
         setisLoading(false);
         setCartButton(false);
         setCart([...response.data.products]);
+      }).catch(()=>{
+        return alert('unable to add product to cart plz try again later..');
       });
     } else {
       let userCartPromise = removeProductFromUserCart(user.id,id);
