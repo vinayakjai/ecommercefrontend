@@ -18,11 +18,12 @@ function Cart() {
   const { user } = useContext(userContext);
   const navigate = useNavigate();
   let [quantity, setQuantity] = useState(null);
+ 
   const [totalPriceMetaData, setTotalPrice] = useState({
     totalPrice: null,
     finalPrice: null,
-    deliveryCharge: 20,
-    discount: 30,
+    deliveryCharge: null,
+    discount:null,
   });
   const [products, setProducts] = useState([]);
 
@@ -136,7 +137,12 @@ function Cart() {
     const result = removeProductFromUserCart(user.id, productId);
     result
       .then((response) => {
-        setCart([...response.data.products]);
+        if(response.data.products.length==0){
+          setCart([]);
+        }else{
+          setCart([...response.data.products]);
+        }
+        
       })
       .catch(() => {
         return alert("unable to remove product from cart plz try again..");
