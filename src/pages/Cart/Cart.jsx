@@ -18,17 +18,26 @@ function Cart() {
   const { user } = useContext(userContext);
   const navigate = useNavigate();
   let [quantity, setQuantity] = useState(null);
- 
+
   const [totalPriceMetaData, setTotalPrice] = useState({
     totalPrice: null,
     finalPrice: null,
     deliveryCharge: null,
-    discount:null,
+    discount: null,
   });
   const [products, setProducts] = useState([]);
 
   async function downloadCartProducts(cart) {
     if (!cart) {
+      return;
+    }
+    if (cart.length == 0) {
+      setTotalPrice({ ...totalPriceMetaData ,
+        totalPrice:null,
+        finalPrice:null,
+        discount:null,
+        deliveryCharge:null,
+      });
       return;
     }
 
@@ -77,48 +86,46 @@ function Cart() {
   }
 
   function calculatePriceOfProducts(products) {
-    if(!products || products.length==0){
-      return
+    if (!products || products.length == 0) {
+      return;
     }
-  
+
     let totalPriceValue = 0;
     let discountValue = 30;
     let deliveryChargeValue = 20;
     products.map((product) => {
       totalPriceValue += product.quantity * product.productDetails.price;
-     
     });
 
-    totalPriceValue=Math.floor(totalPriceValue);
+    totalPriceValue = Math.floor(totalPriceValue);
 
     if (totalPriceValue < 100) {
-    
       setTotalPrice({
         ...totalPriceMetaData,
-        finalPrice:' please order above 100rs',
+        finalPrice: " please order above 100rs",
         discount: 0,
         deliveryCharge: null,
         totalPrice: totalPriceValue,
       });
-      return 
+      return;
     }
 
-    if(totalPriceValue<200 && totalPriceValue>=100){
-     
-      let finalPriceValue=totalPriceValue+deliveryChargeValue;
-     
+    if (totalPriceValue < 200 && totalPriceValue >= 100) {
+      let finalPriceValue = totalPriceValue + deliveryChargeValue;
+
       setTotalPrice({
         ...totalPriceMetaData,
         finalPrice: finalPriceValue,
-        discount: ' applicable on order above 200rs',
+        discount: " applicable on order above 200rs",
         deliveryCharge: deliveryChargeValue,
         totalPrice: totalPriceValue,
       });
-      return 
+      return;
     }
-    if(totalPriceValue>=200){
-      let finalPriceValue=totalPriceValue+deliveryChargeValue-discountValue;
-     
+    if (totalPriceValue >= 200) {
+      let finalPriceValue =
+        totalPriceValue + deliveryChargeValue - discountValue;
+
       setTotalPrice({
         ...totalPriceMetaData,
         finalPrice: finalPriceValue,
@@ -126,7 +133,7 @@ function Cart() {
         deliveryCharge: deliveryChargeValue,
         totalPrice: totalPriceValue,
       });
-      return
+      return;
     }
   }
 
@@ -137,12 +144,11 @@ function Cart() {
     const result = removeProductFromUserCart(user.id, productId);
     result
       .then((response) => {
-        if(response.data.products.length==0){
+        if (response.data.products.length == 0) {
           setCart([]);
-        }else{
+        } else {
           setCart([...response.data.products]);
         }
-        
       })
       .catch(() => {
         return alert("unable to remove product from cart plz try again..");
@@ -150,9 +156,8 @@ function Cart() {
   }
 
   useEffect(() => {
-  
     downloadCartProducts(cart);
-  }, [cart,totalPriceMetaData.totalPrice]);
+  }, [cart, totalPriceMetaData.totalPrice]);
 
   return (
     <div className="container">
@@ -191,7 +196,9 @@ function Cart() {
                   <div></div>
                 </div>
                 <div className="price-details-item d-flex flex-row justify-content-between">
-                  <div>Delivery Charges:{totalPriceMetaData.deliveryCharge}</div>
+                  <div>
+                    Delivery Charges:{totalPriceMetaData.deliveryCharge}
+                  </div>
                   <div></div>
                 </div>
                 <div className="price-details-item d-flex flex-row justify-content-between">
@@ -207,7 +214,6 @@ function Cart() {
               >
                 Continue Shopping
               </button>
-        
             </div>
           </div>
         </div>
