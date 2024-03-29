@@ -38,7 +38,7 @@ function Cart() {
         discount:null,
         deliveryCharge:null,
       });
-      return;
+      
     }
 
     let productIds = cart.map((product) => {
