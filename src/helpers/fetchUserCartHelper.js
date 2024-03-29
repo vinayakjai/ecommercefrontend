@@ -60,7 +60,7 @@ export async function addProductToUserCart(productId, userId, quantity = 0) {
 export async function removeProductFromUserCart(userId, productId) {
   try {
     let response = await axios.delete(
-      `http://localhost:8765/carts/product?userId=${userId}&productId=${productId}`,
+      `${import.meta.env.VITE_FAKE_STORE_URL}/carts/product?userId=${userId}&productId=${productId}`,
       {
         withCredentials: true,
       }

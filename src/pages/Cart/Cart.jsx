@@ -88,7 +88,7 @@ function Cart() {
      
     });
 
-   
+    totalPriceValue=Math.floor(totalPriceValue);
 
     if (totalPriceValue < 100) {
     
@@ -201,12 +201,7 @@ function Cart() {
               >
                 Continue Shopping
               </button>
-              <a
-                href="checkout.html"
-                className="checkout-btn btn btn-primary text-decoration-none"
-              >
-                Checkout
-              </a>
+        
             </div>
           </div>
         </div>
